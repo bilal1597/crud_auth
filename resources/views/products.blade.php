@@ -12,7 +12,7 @@
 <div class="container">
     <div class="card-header">
         <h1>Welcome to Product Page </h1>
-        <h3> {{Auth::user()->name }} </h3>
+        <h1> {{Auth::user()->name }} </h1>
 
         <a href="{{route('logout')}}" class="btn btn-danger float-end">Sign Out</a><br> <br>
   </div>

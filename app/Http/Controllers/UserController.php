@@ -24,7 +24,7 @@ class UserController extends Controller
         if (Auth::check()) {
             return redirect()->route('product.view');
         } else {
-            // return redirect()->route('view.login');
+
             return view('login');
         }
     }
@@ -47,6 +47,14 @@ class UserController extends Controller
         }
     }
 
+    public function viewRegister()
+    {
+        if (Auth::check()) {
+            return redirect()->route('product.view');
+        } else {
+            return view('register');
+        }
+    }
 
 
     public function register(Request $request)
