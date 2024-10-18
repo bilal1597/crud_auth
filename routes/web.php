@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -7,7 +8,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('users');
 // });
 
-Route::get('/products', [UserController::class, 'products'])->name('product.view');
 
 
 Route::get('/login', [UserController::class, 'getLogin'])->name('view.login');
@@ -17,3 +17,19 @@ Route::get('/register', [UserController::class, 'viewRegister'])->name('view.reg
 Route::post('/register', [UserController::class, 'register'])->name('user.save');
 
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+
+///////////////////// PRODUCTS //////////////////////
+
+Route::get('/products', [UserController::class, 'showProducts'])->name('product.view');
+
+Route::get('/add/products', [UserController::class, 'loadAddUser'])->name('viewAdd.product');
+Route::post('/add/products', [UserController::class, 'addUser'])->name('post.product');
+
+
+Route::get('/edit/{id}', [UserController::class, 'viewProduct'])->name('view.product');
+Route::put('/edit/products', [UserController::class, 'editProduct'])->name('edit.product');
+
+
+Route::delete('/delete/{id}', [UserController::class, 'deleteProduct'])->name('delete.product');
+
+// Route::resource('products', ProductController::class);
