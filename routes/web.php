@@ -21,6 +21,7 @@ Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/forgot', [AuthController::class, 'forgot'])->name('forgot');
 Route::post('/forgot', [AuthController::class, 'forgotPassword'])->name('user.forgot');
 
+Route::get('/reset/{token}', [AuthController::class, 'getReset'])->name('reset');
 
 ///////////////////// PRODUCTS //////////////////////
 
