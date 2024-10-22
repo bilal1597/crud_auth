@@ -18,7 +18,7 @@
 
                     <div class="col-md-10">
                       <label for="inputEmail4" class="form-label">Email</label>
-                      <input type="email" name="email" class="form-control" id="inputEmail4">
+                      <input type="email" name="email" value="{{ old('email') }}" class="form-control" id="inputEmail4">
                       @error('email')
                           <span class="text-danger" >{{$message}}</span>
                       @enderror
@@ -32,11 +32,20 @@
                   @enderror
                     </div>
 
+                    {{-- <div class="col-md-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="remember" id="remember">
+                            <label class="form-check-label" for="remember">Remember Me</label>
+                        </div>
+                    </div> --}}
 
 
                     <div class="col-12">
                       <button type="submit" class="btn btn-primary">Sign in</button>
                     </div>
+                    <div class="col-12">
+                        <a href="/forgot" class="btn btn-primary float-end">Forgot Your Password</a>
+                      </div>
                   </form>
             </div>
         </div>

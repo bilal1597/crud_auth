@@ -23,7 +23,11 @@ class UserController extends Controller
 
     public function loadAddUser()
     {
-        return view('add_product');
+        if (Auth::check()) {
+            return view('add_product');
+        } else {
+            return redirect()->route('view.login');
+        }
     }
 
     public function addUser(Request $request)
@@ -37,10 +41,17 @@ class UserController extends Controller
         return redirect()->route('product.view');
     }
 
-    public function viewProduct(string $id)
+    public function viewProduct($id)
     {
-        $product = Product::find($id);
-        return view('edit', compact('product'));
+        if (Auth::check()) {
+            $product = Product::find($id);
+            if (!$product) {
+                return redirect()->back()->with('error', 'Product not found.');
+            }
+            return view('edit', compact('product'));
+        } else {
+            return redirect()->route('view.login');
+        }
     }
 
     public function editProduct(Request $request)
@@ -51,7 +62,7 @@ class UserController extends Controller
             'price' => 'required|integer|max:9999999'
         ]);
 
-        Product::where('id', $request->id)->update($data);
+        $product = Product::where('id', $request->id)->update($data);
 
         return redirect()->route('product.view')->with('success', 'User Updated Successfully');
     }
@@ -79,20 +90,20 @@ class UserController extends Controller
     public function login(Request $request)
     {
 
-        // return view('login');
 
         $user = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:4'
         ]);
+        // Check if the "remember me" checkbox was selected
 
         if (Auth::attempt($user)) {
-            // $request->session()->regenerate();
+
             return redirect()->route('product.view');
         } else {
             return redirect()->route('view.login')
                 ->withErrors([
-                    'email' => 'The provided credentials do not match our records.',
+                    'email' => 'The provided credentials do not match our system.',
                 ]);
         }
     }

@@ -17,22 +17,25 @@
                     <form action="{{route('post.product')}}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="formGroupExampleInput" class="form-label">Product Name</label>
-                            <input name="product_name" type="text" class="form-control"  id="formGroupExampleInput" placeholder="Enter Product Name">
+                            <label for="formGroupExampleInput" class="form-label">Product Name *</label>
+                            <input name="product_name" value="{{ old('product_name') }}" type="text" class="form-control"  id="formGroupExampleInput" placeholder="Enter Product Name">
                         @error('product_name')
                             <span class="text-danger">{{$message}} </span>
                         @enderror
                         </div>
                           <div class="mb-3">
-                            <label for="formGroupExampleInput2" class="form-label">Details</label>
-                            <input name="details" type="text" class="form-control" id="formGroupExampleInput2" placeholder="Enter Details">
+                            <label for="formGroupExampleInput2" class="form-label">Details *</label>
+                            <textarea name="details"  type="text" class="form-control" cols="10" rows="2"
+                            placeholder="Enter Details" >
+                                {{ old('details') }}
+                            </textarea>
                             @error('details')
                             <span class="text-danger">{{$message}} </span>
                         @enderror
                         </div>
                           <div class="mb-3">
-                            <label for="formGroupExampleInput2" class="form-label">Price</label>
-                            <input name="price" type="number" class="form-control" id="formGroupExampleInput2" placeholder="Enter Price">
+                            <label for="formGroupExampleInput2" class="form-label">Price *</label>
+                            <input name="price" value="{{ old('price') }}" type="number" class="form-control" id="formGroupExampleInput2" placeholder="Enter Price">
                             @error('price')
                             <span class="text-danger">{{$message}} </span>
                         @enderror

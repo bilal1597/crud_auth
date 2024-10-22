@@ -5,12 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Document</title>
+    <title>Crud</title>
 </head>
 <body>
     <div class="container">
         <div class="card">
+            @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
             <div class="card-header">
+
                 <h1>Edit Product</h1>
             </div>
             <div class="card-body">
@@ -20,23 +27,23 @@
                     <form>
                         <input type="hidden" name="id" value="{{$product->id}}" >
                         <div class="mb-3">
-                            <label for="exampleInputname" class="form-label">Product Name</label>
-                            <input type="text" name="product_name" value="{{$product->product_name}}" class="form-control " id="exampleInputname" placeholder="Enter Full Name">
+                            <label for="exampleInputname" class="form-label">Product Name *</label>
+                            <input type="text" name="product_name" value="{{old('product_name', $product->product_name) }}" class="form-control " id="exampleInputname" placeholder="Enter Product Name">
                             @error('product_name')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
                           </div>
                           <div class="mb-3">
-                            <label for="formGroupExampleInput2" class="form-label">Details</label>
-                            <input name="details" type="text" value="{{$product->details}}" class="form-control" id="formGroupExampleInput2" placeholder="Enter Email">
+                            <label for="formGroupExampleInput2" class="form-label">Details *</label>
+                            <textarea name="details" type="text" value="{{old('details' , $product->details) }}" class="form-control"  placeholder="Enter Details"></textarea>
                             @error('details')
                             <span class="text-danger">{{$message}} </span>
                         @enderror
                         </div>
 
                         <div class="mb-3">
-                            <label for="exampleInputbatch" class="form-label">price</label>
-                            <input type="number" name="price" value="{{$product->price}}" class="form-control " id="exampleInputbatch" placeholder="Enter Batch Year">
+                            <label for="exampleInputbatch" class="form-label">Price *</label>
+                            <input type="number"  name="price" value="{{old('price' , $product->price ) }}" class="form-control " id="exampleInputbatch" placeholder="Enter Price">
                             @error('price')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror

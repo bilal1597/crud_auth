@@ -1,12 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/user', function () {
-//     return view('users');
-// });
+
 
 
 
@@ -17,6 +16,11 @@ Route::get('/register', [UserController::class, 'viewRegister'])->name('view.reg
 Route::post('/register', [UserController::class, 'register'])->name('user.save');
 
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+
+
+Route::get('/forgot', [AuthController::class, 'forgot'])->name('forgot');
+Route::post('/forgot', [AuthController::class, 'forgotPassword'])->name('user.forgot');
+
 
 ///////////////////// PRODUCTS //////////////////////
 

@@ -6,7 +6,7 @@
 
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Document</title>
+    <title>Crud</title>
 </head>
 <body>
 <div class="container">
@@ -33,7 +33,7 @@
                 <tbody>
                     @foreach ($collection as $item)
                     <tr>
-                        <td>{{$item ->id}} </td>
+                        <td>{{$loop ->iteration}} </td>
                         <td>{{$item ->product_name}} </td>
                         <td>{{$item ->details}} </td>
                         <td>{{$item ->price}}</td>
@@ -43,7 +43,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('Are you sure you want to delete this user?');" >Delete</button>
+                            onclick="return confirm('Are you sure you want to delete this Product?');" >Delete</button>
                         </form> </td>
                     </tr>
                     @endforeach
