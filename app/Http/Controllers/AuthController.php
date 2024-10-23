@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\ForgotPasswordMail;
+use App\Http\Requests\ResetPassword;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+use function Laravel\Prompts\password;
 
 class AuthController extends Controller
 {
@@ -21,10 +26,8 @@ class AuthController extends Controller
             'email' => 'required',
         ]);
         // dd($request->all());
-        $count = User::where('email', '=', $request->email)->count();
-        if ($count > 0) {
-            // dd($request->all());
-            $user = User::where('email', '=', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
             $user->remember_token = Str::random(50);
             $user->save();
 
@@ -32,16 +35,45 @@ class AuthController extends Controller
 
             return redirect()->route('forgot')->with(
                 'success',
-                'Password has been reset'
+                'Email has been sent to your Account'
             );
         } else {
             return redirect()->route('forgot')->withErrors([
-                'email' => 'The provided credentials do not match our System',
+                'email' => 'The provided credentials does not match our System',
             ]);;
         }
     }
     public function getReset($token)
     {
-        dd($token);
+        if (Auth::check()) {
+            return redirect()->route('product.view');
+        }
+        // dd($token);
+
+        $user = User::where('remember_token', $token)->first();
+
+        if (!$user) {
+            abort(403);
+        }
+        $data['token'] = $token;
+
+        return view('reset', $data);
+    }
+
+    public function postReset($token, ResetPassword $request)
+    {
+
+        $user = User::where('remember_token', '=', $token)->first();
+        // if ($user->count() == 0)
+        if (!$user) {
+            abort(403);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password),
+            'remember_token' => Str::random(50)
+        ]);
+
+        return redirect()->route('view.login')->with('success', 'Password has been Reset');
     }
 }

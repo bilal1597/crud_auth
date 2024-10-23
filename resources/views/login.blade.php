@@ -15,6 +15,12 @@
             <div class="card-body">
                 <form class="row g-3" action="{{route('user.auth')}}" method="POST" >
                     @csrf
+                    @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+
 
                     <div class="col-md-10">
                       <label for="inputEmail4" class="form-label">Email</label>

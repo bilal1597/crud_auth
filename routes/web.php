@@ -22,6 +22,7 @@ Route::get('/forgot', [AuthController::class, 'forgot'])->name('forgot');
 Route::post('/forgot', [AuthController::class, 'forgotPassword'])->name('user.forgot');
 
 Route::get('/reset/{token}', [AuthController::class, 'getReset'])->name('reset');
+Route::post('/reset/{token}', [AuthController::class, 'postReset'])->name('post.reset');
 
 ///////////////////// PRODUCTS //////////////////////
 
