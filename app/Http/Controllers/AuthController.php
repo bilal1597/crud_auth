@@ -26,8 +26,10 @@ class AuthController extends Controller
             'email' => 'required',
         ]);
         // dd($request->all());
-        $user = User::where('email', $request->email)->first();
-        if ($user) {
+        $count = User::where('email', '=', $request->email)->count();
+        if ($count > 0) {
+            // dd($request->all());
+            $user = User::where('email', '=', $request->email)->first();
             $user->remember_token = Str::random(50);
             $user->save();
 
@@ -49,31 +51,31 @@ class AuthController extends Controller
             return redirect()->route('product.view');
         }
         // dd($token);
-
-        $user = User::where('remember_token', $token)->first();
-
-        if (!$user) {
-            abort(403);
+        $user = User::where('remember_token', '=', $token);
+        if ($user->count() == 0) {
+            // abort(403);
+            return abort(403, 'Unauthorized action. Token may be invalid or expired.');
         }
+        $user = $user->first();
         $data['token'] = $token;
-
         return view('reset', $data);
     }
 
     public function postReset($token, ResetPassword $request)
     {
-
-        $user = User::where('remember_token', '=', $token)->first();
-        // if ($user->count() == 0)
-        if (!$user) {
+        // $request->validate([
+        //     'password' => 'required|min:4',
+        //     'password_confirm' => 'required|min:4|same:password'
+        // ]);
+        $user = User::where('remember_token', '=', $token);
+        if ($user->count() == 0) {
             abort(403);
         }
 
-        $user->update([
-            'password' => Hash::make($request->password),
-            'remember_token' => Str::random(50)
-        ]);
-
+        $user = $user->first();
+        $user->password = Hash::make($request->password);
+        $user->remember_token = Str::random(50);
+        $user->save();
         return redirect()->route('view.login')->with('success', 'Password has been Reset');
     }
 }
