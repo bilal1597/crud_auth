@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\ForgotPasswordMail;
 use App\Http\Requests\ResetPassword;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -26,10 +27,17 @@ class AuthController extends Controller
             'email' => 'required',
         ]);
         // dd($request->all());
-        $count = User::where('email', '=', $request->email)->count();
-        if ($count > 0) {
-            // dd($request->all());
-            $user = User::where('email', '=', $request->email)->first();
+
+        // $count = User::where('email', '=', $request->email)->count();
+        // if ($count > 0) {
+        //     $user = User::where('email', '=', $request->email)->first();
+        //     $user->remember_token = Str::random(50);
+        //     $user->save();
+
+        $user = User::where('email', $request->email)->first();
+
+        // Generate a new token and save it
+        if ($user) {
             $user->remember_token = Str::random(50);
             $user->save();
 
@@ -51,24 +59,24 @@ class AuthController extends Controller
             return redirect()->route('product.view');
         }
         // dd($token);
-        $user = User::where('remember_token', '=', $token);
-        if ($user->count() == 0) {
-            // abort(403);
+        $user = User::where('remember_token', $token)->first();
+        // if ($user->count() == 0)
+        if (!$user) {
+
             return abort(403, 'Unauthorized action. Token may be invalid or expired.');
         }
-        $user = $user->first();
+        // $user = $user->first();
         $data['token'] = $token;
+
         return view('reset', $data);
     }
 
     public function postReset($token, ResetPassword $request)
     {
-        // $request->validate([
-        //     'password' => 'required|min:4',
-        //     'password_confirm' => 'required|min:4|same:password'
-        // ]);
-        $user = User::where('remember_token', '=', $token);
-        if ($user->count() == 0) {
+
+        $user = User::where('remember_token', $token);
+        // if ($user->count() == 0)
+        if (!$user) {
             abort(403);
         }
 
