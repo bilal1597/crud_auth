@@ -35,7 +35,7 @@
                           </div>
                           <div class="mb-3">
                             <label for="formGroupExampleInput2" class="form-label">Details *</label>
-                            <textarea name="details" type="text" value="{{old('details' , $product->details) }}" class="form-control"  placeholder="Enter Details"></textarea>
+                            <textarea name="details" type="text" class="form-control"  placeholder="Enter Details">{{old('details' , $product->details) }}</textarea>
                             @error('details')
                             <span class="text-danger">{{$message}} </span>
                         @enderror
