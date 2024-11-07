@@ -89,8 +89,6 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-
-
         $user = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:4'

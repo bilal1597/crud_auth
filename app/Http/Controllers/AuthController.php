@@ -8,11 +8,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\ForgotPasswordMail;
 use App\Http\Requests\ResetPassword;
-use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-use function Laravel\Prompts\password;
 
 class AuthController extends Controller
 {
@@ -26,14 +24,6 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required',
         ]);
-        // dd($request->all());
-
-        // $count = User::where('email', '=', $request->email)->count();
-        // if ($count > 0) {
-        //     $user = User::where('email', '=', $request->email)->first();
-        //     $user->remember_token = Str::random(50);
-        //     $user->save();
-
         $user = User::where('email', $request->email)->first();
 
         // Generate a new token and save it

@@ -43,7 +43,7 @@
 
 
                     <div class="col-12">
-                      <button type="submit" class="btn btn-primary">Forgot</button>
+                      <button type="submit" class="btn btn-primary">Send Paasword Reset Link</button>
                     </div>
                   </form>
             </div>
